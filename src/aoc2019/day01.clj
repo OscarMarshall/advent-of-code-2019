@@ -1,8 +1,8 @@
-(ns aoc2019.day1
+(ns aoc2019.day01
   (:require [clojure.edn :as edn]
             [clojure.string :as string]))
 
-(def input (-> "src/aoc2019/day1_input.txt"
+(def input (-> "src/aoc2019/day01_input.txt"
                slurp
                string/split-lines
                (->> (map edn/read-string))))

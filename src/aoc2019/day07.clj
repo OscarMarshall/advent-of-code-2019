@@ -1,11 +1,11 @@
-(ns aoc2019.day7
+(ns aoc2019.day07
   (:require [aoc2019.intcode-computer :as intcode-computer]
             [clojure.string :as string]
             [clojure.edn :as edn])
   (:import (clojure.lang PersistentQueue)))
 
 (def input
-  (-> "src/aoc2019/day7_input.txt"
+  (-> "src/aoc2019/day07_input.txt"
       slurp
       (string/split #",")
       (->> (mapv edn/read-string))))

@@ -1,4 +1,4 @@
-(ns aoc2019.day4)
+(ns aoc2019.day04)
 
 (def input (range 156218 (inc 652527)))
 

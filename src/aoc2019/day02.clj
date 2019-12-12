@@ -1,10 +1,10 @@
-(ns aoc2019.day2
+(ns aoc2019.day02
   (:require [aoc2019.intcode-computer :as intcode-computer]
             [clojure.edn :as edn]
             [clojure.string :as string]))
 
 (def input
-  (-> "src/aoc2019/day2_input.txt"
+  (-> "src/aoc2019/day02_input.txt"
       slurp
       (string/split #",")
       (->> (mapv edn/read-string))))
@@ -22,7 +22,7 @@
       #_interpretter
       intcode-computer/compute
       :memory
-      first))
+      (get 0)))
 
 
 ;;; Part 1

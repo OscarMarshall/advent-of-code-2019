@@ -1,4 +1,4 @@
-(ns aoc2019.day3
+(ns aoc2019.day03
   (:require [clojure.string :as string]
             [clojure.edn :as edn]))
 
@@ -6,7 +6,7 @@
   ["R8,U5,L5,D3"
    "U7,R6,D4,L4"])
 
-(def input (->> "src/aoc2019/day3_input.txt" slurp string/split-lines))
+(def input (->> "src/aoc2019/day03_input.txt" slurp string/split-lines))
 
 (defn process-input [input]
   (map (fn [x]

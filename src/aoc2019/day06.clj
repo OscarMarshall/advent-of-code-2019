@@ -1,10 +1,10 @@
-(ns aoc2019.day6
+(ns aoc2019.day06
   (:require [clojure.set :as set]
             [clojure.string :as string])
   (:import (clojure.lang PersistentQueue)))
 
 (def input
-  (->> "src/aoc2019/day6_input.txt"
+  (->> "src/aoc2019/day06_input.txt"
        slurp
        string/split-lines
        (map #(rest (re-matches #"(.+)\)(.+)" %)))

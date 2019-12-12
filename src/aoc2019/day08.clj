@@ -1,11 +1,11 @@
-(ns aoc2019.day8
+(ns aoc2019.day08
   (:require [clojure.edn :as edn]))
 
 (def width 25)
 (def height 6)
 
 (def input
-  (-> "src/aoc2019/day8_input.txt"
+  (-> "src/aoc2019/day08_input.txt"
       slurp
       (->> (remove #{\newline})
            (map str)
