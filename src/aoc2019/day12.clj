@@ -46,58 +46,41 @@
 
 ;;; Part 2
 
-(def primes
-  (letfn [(find-primes [[prime & more]]
-            (lazy-seq (cons prime (find-primes (remove #(zero? (rem % prime)) more)))))]
-    (find-primes (nnext (range)))))
+(defn gcd [a b]
+  (if (zero? b)
+    a
+    (recur b (mod a b))))
 
-(defn factor [x]
-  (loop [x x, factors {}, primes primes]
-    (if (= x 1)
-      factors
-      (let [[factor :as primes] (drop-while #(pos? (mod x %)) primes)]
-        (recur (quot x factor) (update factors factor (fnil inc 0)) primes)))))
+(defn lcm
+  ([a b]
+   (/ (* a b) (gcd a b)))
+  ([a b c & rest]
+   (apply lcm (lcm a b) c rest)))
 
-(comment
-  (factor 1)
-  (factor 2)
-  (factor 4)
-  (factor 6)
-  )
-
-(defn least-common-multiple [& xs]
-  (let [factors (map factor xs)
-        largest-factor (apply max (mapcat keys factors))]
-    (apply * (mapcat (fn [prime] (repeat (apply max (map #(get % prime 0) factors)) prime))
-                     (take-while #(<= % largest-factor) primes)))))
-
-(comment
-  (least-common-multiple 2 5 3)
-  )
+(defn step-dimension [system]
+  (let [xs (map first system)]
+    (map (fn [[x velocity]]
+           (let [velocity (+ velocity
+                             (apply + (map #(cond
+                                              (< % x) -1
+                                              (> % x) 1
+                                              :else 0)
+                                           xs)))]
+             [(+ x velocity) velocity]))
+         system)))
 
 (defn cycles [posns]
   (let [dimensions (map (fn [i] (map #(nth % i) posns)) (range 3))]
     (map (fn [xs]
-           (let [starting-system (map vector (map list xs) (repeat '(0)))]
-             (inc (count (take-while #(not= % starting-system) (rest (iterate step-system starting-system)))))))
+           (let [starting-system (map vector xs (repeat 0))]
+             (some #(when (= (second %) starting-system) (first %))
+                   (rest (map-indexed vector (iterate step-dimension starting-system))))))
          dimensions)))
 
 (comment
-  (cycles [[-1 0 2]
-           [2 -10 -7]
-           [4 -8 8]
-           [3 5 -1]])
-  (cycles [[-8 -10 0]
-           [5 5 10]
-           [2 -7 3]
-           [9 -8 -3]])
-  (cycles input))
+  (apply lcm (cycles [[-1 0 2] [2 -10 -7] [4 -8 8] [3 5 -1]]))
+  (apply lcm (cycles [[-8 -10 0] [5 5 10] [2 -7 3] [9 -8 -3]]))
+  )
 
-(def part2
-  #_(reduce (fn [acc system]
-            (let [posns (map first system)]
-              (if (contains? acc posns)
-                (reduced (count acc))
-                (conj acc posns))))
-          #{}
-          (iterate step-system system)))
+(def part2 (apply lcm (cycles input)))
+;; => 292653556339368
